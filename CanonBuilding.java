@@ -16,7 +16,6 @@ public class CanonBuilding extends Building {
 
     public int draw(Graphics g, int x, int y) throws IOException {
 
-        final BufferedImage image = ImageIO.read(new File("/home/linuxlite/Downloads/Gorilla.png"));
 
         wrapped.draw(g, x, y);
 
@@ -24,7 +23,8 @@ public class CanonBuilding extends Building {
         if(wrapped instanceof AlleyBuilding) {
             width = ((AlleyBuilding) wrapped).getNonAlleyWidth();
         }
-        g.drawImage(image, x, y-(getHeight())+15, width,100, null);
+        g.setColor(Color.black);
+        g.fillRect( x, y-(getHeight())+15, width,width);
         return getWidth();
     }
 }
