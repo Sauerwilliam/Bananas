@@ -26,7 +26,7 @@ public class GorillaBuilding extends Building {
 
 
 
-        
+
         g.drawImage(image, x, y-(getHeight() * 2)+ getHeight() - getHeight(),getWidth(),getHeight(), null);
         return getWidth();
     }

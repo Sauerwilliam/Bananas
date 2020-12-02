@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.IOException;
 
-public class Building
+public class  Building
 {
 
     private int height;
