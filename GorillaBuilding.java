@@ -10,26 +10,28 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public class GorillaBuilding extends Building {
+public class GorillaBuilding extends ImageBuilding {
     Building wrapped;
 
     public GorillaBuilding( Building b) {
 
-        super(b.getWidth(), b.getHeight()+100, b.getColor());
+        super(b);
         wrapped = b;
     }
+
     @Override
-    public int draw(Graphics g, int x, int y) throws IOException {
-
-        final BufferedImage image = ImageIO.read(new File("/home/linuxlite/Downloads/Gorilla.png"));
-
-        wrapped.draw(g, x, y);
-
-        int width = getWidth();
-        if(wrapped instanceof AlleyBuilding) {
-            width = ((AlleyBuilding) wrapped).getNonAlleyWidth();
-        }
-        g.drawImage(image, x, y-(getHeight())+15, width,100, null);
-        return getWidth();
+    File getFile() {
+        return new File("/home/linuxlite/Downloads/Gorilla.png");
     }
+
+    @Override
+    int getImageWidth() {
+        return wrapped.getWidth();
+    }
+
+    @Override
+    int getImageHeight() {
+        return wrapped.getHeight();
+    }
+
 }
