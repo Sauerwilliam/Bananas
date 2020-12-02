@@ -24,6 +24,9 @@ public class GorillaBuilding extends Building {
         final BufferedImage image = ImageIO.read(new File("/home/linuxlite/Downloads/Gorilla.png"));
 
 
+
+
+        
         g.drawImage(image, x, y-(getHeight() * 2)+ getHeight() - getHeight(),getWidth(),getHeight(), null);
         return getWidth();
     }
