@@ -1,24 +1,19 @@
 package com.william.graphing;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
+public class CanonBuilding extends Building {
 
-public class GorillaBuilding extends Building {
-    Building wrapped;
-
-    public GorillaBuilding( Building b) {
-
-        super(b.getWidth(), b.getHeight()+100, b.getColor());
+    public Building wrapped;
+    public CanonBuilding(Building b) {
+        super(b.getWidth(), b.getHeight() + 100, b.getColor());
         wrapped = b;
     }
-    @Override
+
     public int draw(Graphics g, int x, int y) throws IOException {
 
         final BufferedImage image = ImageIO.read(new File("/home/linuxlite/Downloads/Gorilla.png"));

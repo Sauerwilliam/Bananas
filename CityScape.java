@@ -13,6 +13,7 @@ public class CityScape
     int randGorilla;
     int rectWidth;
     int rectHeight;
+    int randCannon;
 
 
     public CityScape(RandomColorGenerator generator)
@@ -71,8 +72,13 @@ public class CityScape
                 int remainingWidth = Bananas.WIDTH - x; //todo
                 buildings.add(buildBuilding(remainingWidth, rectHeight, colorGenerator.getRandomColor()));
                 x = Bananas.WIDTH;
+
                 randGorilla = getRandomNumber(0,buildings.size());
+                randCannon = getRandomNumber(0,buildings.size());
+                buildings.set(randCannon,new CanonBuilding(buildings.get(randCannon)));
                 buildings.set(randGorilla,new GorillaBuilding(buildings.get(randGorilla)));
+
+
 
             }
 

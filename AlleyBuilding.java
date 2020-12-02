@@ -18,4 +18,8 @@ public class AlleyBuilding extends Building {
     public int draw(Graphics graphics, int x, int y) throws IOException {
         return alleyWidth + wrapped.draw(graphics, x, y);
     }
+
+    public int getNonAlleyWidth() {
+        return wrapped.getWidth();
+    }
 }
