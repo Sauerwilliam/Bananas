@@ -16,7 +16,8 @@ import java.util.List;
 public class Bananas extends Canvas {
     private static List<Building>buildings;
     private static CityScape cityScapes;
-
+    public int angle = 90;
+    public double radians;
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 500;
     public static final int WIDTHMIN = 20;
@@ -41,7 +42,8 @@ public class Bananas extends Canvas {
         //CityScape cityScape = new CityScape(new FullSpectrumRandomColorGenerator());
         CityScape cityScape = new CityScape(new NumberOfColorsRandomGenerator());
         buildings = cityScape.buildBuildings();
-
+        radians = Math.toRadians(angle);
+        radians = Math.tan(angle);
     }
 
     public static int getRandomNumber(int min, int max) {
@@ -50,6 +52,7 @@ public class Bananas extends Canvas {
 
     public void paint(Graphics g) {
         int x = 0;
+
         for(Building b: buildings) {
             g.setColor(b.getColor());
             try {
@@ -77,6 +80,10 @@ public class Bananas extends Canvas {
         }
 
  */
+        for (int i = 50; i < 100; i += 2){
+
+            g.fillOval(i,(int)radians*i+ getHeight(),10,10);
+        }
     }
 
 
