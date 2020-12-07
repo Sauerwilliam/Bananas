@@ -15,9 +15,11 @@ public class RoundTopBuilding extends Building{
 
 
     @Override
-    public int draw(Graphics graphics, int x, int y) throws IOException {
+    public int draw(Graphics graphics, int currentX, int currentY) throws IOException {
 
-        graphics.fillOval(x,y-getHeight() - (getHeight() / 2),getWidth(),getHeight());
-        return super.draw(graphics, x, y);
+        x = currentX;
+        y = currentY;
+        graphics.fillOval(currentX, currentY -getHeight() - (getHeight() / 2),getWidth(),getHeight());
+        return super.draw(graphics, currentX, currentY);
     }
 }

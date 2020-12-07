@@ -20,18 +20,20 @@ public abstract class ImageBuilding extends Building {
     abstract int getImageHeight();
 
 
-    public int draw(Graphics g, int x, int y) throws IOException {
+    public int draw(Graphics g, int currentX, int currentY) throws IOException {
 
         final BufferedImage image = ImageIO.read(getFile());
 
-        wrapped.draw(g, x, y);
+        wrapped.draw(g, currentX, currentY);
 
+        x = currentX;
+        y = currentY;
         int width = getImageWidth();
         int height = getImageHeight();
         if(wrapped instanceof AlleyBuilding) {
             width = ((AlleyBuilding) wrapped).getNonAlleyWidth();
         }
-        g.drawImage(image, x, y-(getHeight())+15, width,height, null);
+        g.drawImage(image, currentX, currentY -(getHeight())+15, width,height, null);
         return width;
     }
 }

@@ -10,12 +10,15 @@ public class  Building
     private int height;
     private int width;
     private Color color;
+    protected int y;
+    protected int x;
 
     public Building(int currentWidth, int currentHeight, Color currentColor)
     {
         height = currentHeight;
         width = currentWidth;
         color = currentColor;
+
     }
 
     public int getHeight()
@@ -23,7 +26,12 @@ public class  Building
         return height;
 
     }
-
+    public int getXCoordinate(){
+        return x;
+    }
+    public int getYCoordinate(){
+        return y;
+    }
     public int getWidth()
     {
         return width;
@@ -49,9 +57,11 @@ public class  Building
         height = newHeight;
     }
 
-    public int draw(Graphics graphics, int x, int y) throws IOException
+    public int draw(Graphics graphics, int currentX, int currentY) throws IOException
     {
-        graphics.fillRect(x, y - height, width, height);
+        x = currentX;
+        y = currentY;
+        graphics.fillRect(currentX, currentY - height, width, height);
         return width;
     }
 }

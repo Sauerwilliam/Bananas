@@ -15,8 +15,8 @@ public class AlleyBuilding extends Building {
     }
 
     @Override
-    public int draw(Graphics graphics, int x, int y) throws IOException {
-        return alleyWidth + wrapped.draw(graphics, x, y);
+    public int draw(Graphics graphics, int currentX, int currentY) throws IOException {
+        return alleyWidth + wrapped.draw(graphics, currentX, currentY);
     }
 
     public int getNonAlleyWidth() {

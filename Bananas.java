@@ -2,11 +2,7 @@
 package com.william.graphing;
 
 import java.awt.Color;
-import java.awt.GraphicsConfigTemplate;
-import java.awt.GraphicsConfiguration;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
 import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Graphics;
@@ -16,7 +12,7 @@ import java.util.List;
 public class Bananas extends Canvas {
     private static List<Building>buildings;
     private static CityScape cityScapes;
-    public int angle = 90;
+    public int angle = 690;
     public double radians;
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 500;
@@ -43,7 +39,7 @@ public class Bananas extends Canvas {
         CityScape cityScape = new CityScape(new NumberOfColorsRandomGenerator());
         buildings = cityScape.buildBuildings();
         radians = Math.toRadians(angle);
-        radians = Math.tan(angle);
+        radians = Math.tan(radians);
     }
 
     public static int getRandomNumber(int min, int max) {
@@ -80,10 +76,17 @@ public class Bananas extends Canvas {
         }
 
  */
-        for (int i = 50; i < 100; i += 2){
+        for(Building b: buildings) {
 
-            g.fillOval(i,(int)radians*i+ getHeight(),10,10);
+            if(b instanceof CanonBuilding) {
+                double bIntercept = (b.getYCoordinate()-b.getHeight()) - b.getXCoordinate() * radians;
+                for (int i = b.getXCoordinate(); i < 1000; i += 2) {
+                    g.setColor(Color.BLACK);
+                    g.fillOval(i + b.getWidth(), (int) ((radians * i) + bIntercept), 10, 10);
+                }
+            }
         }
+
     }
 
 
