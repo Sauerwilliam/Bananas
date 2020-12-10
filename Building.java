@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.IOException;
 
-public class  Building
-{
+public class Building {
 
     private int height;
     private int width;
@@ -13,55 +12,61 @@ public class  Building
     protected int y;
     protected int x;
 
-    public Building(int currentWidth, int currentHeight, Color currentColor)
-    {
+    public Building(int currentWidth, int currentHeight, Color currentColor) {
         height = currentHeight;
         width = currentWidth;
         color = currentColor;
 
     }
 
-    public int getHeight()
-    {
+    public int getHeight() {
         return height;
 
     }
-    public int getXCoordinate(){
+
+    public int getXCoordinate() {
         return x;
     }
-    public int getYCoordinate(){
+
+    public int getYCoordinate() {
         return y;
     }
-    public int getWidth()
-    {
+
+    public int getWidth() {
         return width;
     }
 
-    public Color getColor()
-    {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(Color newColor)
-    {
+    public void setColor(Color newColor) {
         color = newColor;
     }
 
-    public void setWidth(int newWidth)
-    {
+    public void setWidth(int newWidth) {
         width = newWidth;
     }
 
-    public void setHeight(int newHeight)
-    {
+    public void setHeight(int newHeight) {
         height = newHeight;
     }
 
-    public int draw(Graphics graphics, int currentX, int currentY) throws IOException
-    {
+    public int draw(Graphics graphics, int currentX, int currentY) throws IOException {
         x = currentX;
         y = currentY;
         graphics.fillRect(currentX, currentY - height, width, height);
         return width;
     }
+
+    public boolean buildingHit(int bananaX, int bananaY) {
+        if (bananaX >= getXCoordinate() && bananaX <= getXCoordinate() + getWidth() && bananaY < getHeight()) {
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+    
 }

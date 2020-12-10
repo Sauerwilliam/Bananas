@@ -73,11 +73,6 @@ public class CityScape
                 buildings.add(buildBuilding(remainingWidth, rectHeight, colorGenerator.getRandomColor()));
                 x = Bananas.WIDTH;
 
-                randGorilla = getRandomNumber(0,buildings.size());
-                randCannon = getRandomNumber(0,buildings.size());
-                buildings.set(randCannon,new CanonBuilding(buildings.get(randCannon)));
-                buildings.set(randGorilla,new GorillaBuilding(buildings.get(randGorilla)));
-
 
 
             }
@@ -91,6 +86,11 @@ public class CityScape
 
 
         }
+
+        randGorilla = getRandomNumber(0,buildings.size());
+        randCannon = getRandomNumber(0,buildings.size());
+        buildings.set(randCannon,new CanonBuilding(buildings.get(randCannon)));
+        buildings.set(randGorilla,new GorillaBuilding(buildings.get(randGorilla)));
 
 
         //pick one building at random, turn it into a gorilla building

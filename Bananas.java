@@ -2,27 +2,30 @@
 package com.william.graphing;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.util.List;
 
 
-public class Bananas extends Canvas {
+public class Bananas extends Canvas implements ActionListener  {
     private static List<Building>buildings;
     private static CityScape cityScapes;
     public int angle = 690;
     public double radians;
+    public double velocity;
+    public long time;
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 500;
     public static final int WIDTHMIN = 20;
     public static final int WIDTHMAX = 100;
     public static final int HEIGHTMIN = 80;
     public static final int HEIGHTMAX = 100;
-
-
-
+    public int publicI;
+    public int calculatedY;
     public static void main(String[] args) {
         JFrame frame = new JFrame("My Drawing");
         Bananas canvas = new Bananas();
@@ -40,6 +43,9 @@ public class Bananas extends Canvas {
         buildings = cityScape.buildBuildings();
         radians = Math.toRadians(angle);
         radians = Math.tan(radians);
+        time = System.currentTimeMillis();
+        velocity = 50d / 1000d;
+        new Timer(125, this).start();
     }
 
     public static int getRandomNumber(int min, int max) {
@@ -55,37 +61,38 @@ public class Bananas extends Canvas {
                 x += b.draw(g, x, HEIGHT);
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
-/*
-            if (x >= WIDTH - 100) {
-                g.setColor(b.getColor());
-                //g.fillRect( x,HEIGHT - rectHeight,rectWidth,rectHeight);
-                g.fillRect(x,HEIGHT - b.getHeight(),WIDTH - x,b.getHeight());
-
-                int lastWidth = WIDTH - x;
-                x = WIDTH;
-                System.out.println("x is: " + x);
-            } else  {
-                    //g.fillRect(x,HEIGHT - rectHeight,rectWidth,rectHeight);
-                    g.setColor(b.getColor());
-                    g.fillRect(x,HEIGHT - b.getHeight(),b.getWidth(),b.getHeight());
-                    x += b.getWidth();
-                    System.out.println("x is: " + x);
-            }
-        }
-
- */
+   double timeDelta = System.currentTimeMillis() - time;
         for(Building b: buildings) {
 
+            if (b.buildingHit(publicI,calculatedY)){
+                System.out.println("Building hit");
+            }
             if(b instanceof CanonBuilding) {
                 double bIntercept = (b.getYCoordinate()-b.getHeight()) - b.getXCoordinate() * radians;
-                for (int i = b.getXCoordinate(); i < 1000; i += 2) {
+                int initX = (int)(b.getXCoordinate() + timeDelta * velocity);
+                System.out.println(timeDelta + "::" + initX);
+                for (int i = initX; i < initX + 10; i += 2) {
                     g.setColor(Color.BLACK);
-                    g.fillOval(i + b.getWidth(), (int) ((radians * i) + bIntercept), 10, 10);
+                    calculatedY = (int) ((radians * i) + bIntercept + .5 * .001 * timeDelta * timeDelta / 100);
+                    g.fillOval(i + b.getWidth(), calculatedY, 10, 10);
+                    publicI = i;
+                    //if(i >= WIDTH){
+                    //    System.out.println("Hello");
+                    //}
+                    //if(calculatedY >= HEIGHT){
+                    //    System.out.println("Down we go");
+                    //}
+
                 }
+
             }
+
         }
+
+
 
     }
 
@@ -94,5 +101,10 @@ public class Bananas extends Canvas {
 
     private Color getRandomColor() {
         return new Color(getRandomNumber(0, 225), getRandomNumber(0, 225), getRandomNumber(0, 0));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
     }
 }
