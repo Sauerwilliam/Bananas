@@ -10,10 +10,10 @@ public class CityScape
     public static final int MIN = 0;
     List<Building> buildings = new ArrayList<>();
     public RandomColorGenerator colorGenerator;
-    int randGorilla;
+    int rand1;
     int rectWidth;
     int rectHeight;
-    int randCannon;
+    int rand2;
 
 
     public CityScape(RandomColorGenerator generator)
@@ -75,6 +75,7 @@ public class CityScape
 
 
 
+
             }
 
             if (x <= Bananas.WIDTH - 100) {
@@ -87,10 +88,17 @@ public class CityScape
 
         }
 
-        randGorilla = getRandomNumber(0,buildings.size());
-        randCannon = getRandomNumber(0,buildings.size());
-        buildings.set(randCannon,new CanonBuilding(buildings.get(randCannon)));
-        buildings.set(randGorilla,new GorillaBuilding(buildings.get(randGorilla)));
+        rand1 = getRandomNumber(0,buildings.size());
+        rand2 = getRandomNumber(0,buildings.size());
+        if(rand1 < rand2){
+
+            buildings.set(rand1,new CanonBuilding(buildings.get(rand1)));
+            buildings.set(rand2,new GorillaBuilding(buildings.get(rand2)));
+        }
+        if (rand1 > rand2){
+            buildings.set(rand2,new CanonBuilding(buildings.get(rand2)));
+            buildings.set(rand1,new GorillaBuilding(buildings.get(rand1)));
+        }
 
 
         //pick one building at random, turn it into a gorilla building

@@ -41,7 +41,15 @@ public abstract class ImageBuilding extends Building {
     abstract File getFile(); //
     abstract int getImageWidth();
     abstract int getImageHeight();
+    @Override
+    public int getXCoordinate() {
+        return wrapped.getXCoordinate() - getImageHeight();
+    }
 
+    @Override
+    public int getYCoordinate() {
+        return wrapped.getYCoordinate();
+    }
 
     public int draw(Graphics g, int currentX, int currentY) throws IOException {
 

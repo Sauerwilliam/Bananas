@@ -15,6 +15,16 @@ public class AlleyBuilding extends Building {
     }
 
     @Override
+    public int getXCoordinate() {
+        return wrapped.getXCoordinate();
+    }
+
+    @Override
+    public int getYCoordinate() {
+        return wrapped.getYCoordinate();
+    }
+
+    @Override
     public int draw(Graphics graphics, int currentX, int currentY) throws IOException {
         return alleyWidth + wrapped.draw(graphics, currentX, currentY);
     }
