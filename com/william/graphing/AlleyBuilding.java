@@ -1,7 +1,6 @@
 package com.william.graphing;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.io.IOException;
 
 public class AlleyBuilding extends Building {
@@ -14,10 +13,14 @@ public class AlleyBuilding extends Building {
         this.alleyWidth = alleyWidth;
     }
 
+    public int getAlleyWidth(){
+        return alleyWidth;
+    }
     @Override
     public int getXCoordinate() {
         return wrapped.getXCoordinate();
     }
+
 
     @Override
     public int getYCoordinate() {

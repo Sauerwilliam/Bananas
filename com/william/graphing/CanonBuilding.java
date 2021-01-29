@@ -1,10 +1,6 @@
 package com.william.graphing;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class CanonBuilding extends ImageBuilding {
 
@@ -17,7 +13,7 @@ public class CanonBuilding extends ImageBuilding {
 
     @Override
     File getFile() {
-        return new File("/home/william/Downloads/index.png");
+        return new File("/home/william/Downloads/cannon.jpeg");
     }
 
     @Override

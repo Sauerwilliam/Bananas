@@ -1,22 +1,20 @@
 
 package com.william.graphing;
 
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
-import javax.swing.*;
-import javax.swing.Timer;
-import java.awt.Canvas;
-import java.awt.Graphics;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Bananas extends Canvas implements ActionListener {
-    private List<Building> buildings;
-    private List<Bullet> bullets = new ArrayList<>();
+    private final List<Building> buildings;
+    private final List<Bullet> bullets = new ArrayList<>();
     private static CityScape cityScapes;
 
     public Bullet test;
@@ -30,9 +28,10 @@ public class Bananas extends Canvas implements ActionListener {
     public static final int WIDTHMAX = 100;
     public static final int HEIGHTMIN = 80;
     public static final int HEIGHTMAX = 100;
-    public int publicI;
+    public Building hitBuilding;
     public int calculatedY;
     public Building buildingHit;
+    public Building cannonBuilding;
     public static boolean destroyBullet;
 
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -63,13 +62,12 @@ public class Bananas extends Canvas implements ActionListener {
     public Bananas() throws IOException {
         //CityScape cityScape = new CityScape(new FullSpectrumRandomColorGenerator());
         CityScape cityScape = new CityScape(new NumberOfColorsRandomGenerator());
-        test = new Bullet(250,250,-25,25,System.currentTimeMillis());
-        bullets.add(test);
+        //bullets.add(new Bullet(250,250,-25,25,System.currentTimeMillis()));
+        //bullets.add(new Bullet(250,250,-45,15,System.currentTimeMillis()));
         buildings = cityScape.buildBuildings();
-        radians = Math.toRadians(angle);
-        radians = Math.tan(radians);
         time = System.currentTimeMillis();
         velocity = 50d / 1000d;
+
         new Timer(125, this).start();
     }
 
@@ -90,23 +88,52 @@ public class Bananas extends Canvas implements ActionListener {
             }
         }
 
-        for (Bullet b: bullets) {
-            b.draw(g);
-        }
+
         if (destroyBullet){
             return;
         }
         double timeDelta = System.currentTimeMillis() - time;
-        Building hitBuilding = isAnyBuildingHit((int) test.getBulletX(), (int) test.getBulletY());
+
 
         for (Building b : buildings) {
 
-            if(hitBuilding != null) {
-                System.out.println("Buildinghit");
-                System.out.println("Building hit " + hitBuilding.getXCoordinate() + "," + hitBuilding.getYCoordinate());
-                buildings.set(buildings.indexOf(buildingHit), new RubbleBuilding(buildingHit));
-                destroyBullet = true;
+            if (buildings instanceof CanonBuilding){
+                cannonBuilding = buildings.get(buildings.size());
+                try {
+                    bullets.add(new Bullet(Integer.parseInt(reader.readLine()),cannonBuilding.getXCoordinate(),cannonBuilding.getYCoordinate(),250.2,System.currentTimeMillis()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(cannonBuilding.getXCoordinate());
             }
+
+
+            for (Bullet B: bullets) {
+                hitBuilding = isAnyBuildingHit((int) B.getBulletX(), (int) B.getBulletY());
+                System.out.print(B.getBulletX() + "  " + B.getBulletY());
+                //bullets.remove(0);
+
+
+
+                B.draw(g);
+
+                if(hitBuilding != null) {
+                    if(hitBuilding instanceof AlleyBuilding){
+                        buildings.set(buildings.indexOf(buildingHit), new AlleyBuilding(new RubbleBuilding(buildingHit),((AlleyBuilding) hitBuilding).getAlleyWidth()));
+                        destroyBullet = true;
+                        bullets.remove(B);
+                        System.out.println("The thing is YAH: " + bullets.contains(B));
+                    }
+                    //System.out.println("Buildinghit");
+                    //System.out.println("Building hit " + hitBuilding.getXCoordinate() + "," + hitBuilding.getYCoordinate());
+                    buildings.set(buildings.indexOf(buildingHit), new RubbleBuilding(buildingHit));
+                    destroyBullet = true;
+                    bullets.remove(B);
+                    System.out.println("The thing is YAH: " + bullets.contains(B));
+                }
+
+            }
+
             //
 //            if (b instanceof CanonBuilding) {
 //                double bIntercept = (b.getYCoordinate() - b.getHeight()) - b.getXCoordinate() * radians;

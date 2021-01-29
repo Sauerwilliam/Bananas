@@ -11,8 +11,8 @@ public class TriangleTopBuilding extends Building {
 
     @Override
     public int draw(Graphics graphics, int currentX, int currentY) {
-        int xs[] = new int[5];
-        int ys[] = new int[5];
+        int[] xs = new int[5];
+        int[] ys = new int[5];
         xs[0] = currentX;
         xs[1] = currentX + getWidth();
         xs[2] = currentX + getWidth();

@@ -1,6 +1,5 @@
 package com.william.graphing;
 
-import java.awt.*;
 import java.io.File;
 
 public class RubbleBuilding extends ImageBuilding{
@@ -14,7 +13,7 @@ public class RubbleBuilding extends ImageBuilding{
 
     @Override
     File getFile() {
-        return new File("/home/william/Downloads/Rubble.png");
+        return new File("/home/william/Downloads/rubble.jpeg");
     }
 
     @Override
