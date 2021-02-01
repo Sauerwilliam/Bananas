@@ -5,12 +5,12 @@ import java.awt.*;
 public class Bullet {
     public double bulletX;
     public double bulletY;
-    public int speedX;
+    public double speedX;
     public double speedY;
     public long time;
-    public static double GRAVITY = 10; //1px /s /s
+    public static double GRAVITY = 1; //1px /s /s
     public double timeDelta;
-    public double radians;
+
     public double calculatedY;
 
 
@@ -38,7 +38,7 @@ public class Bullet {
 
 
     }
-    public Bullet(double currentBulletX,double currentBulletY,int currentSpeedY,int currentSpeedX,long currentTime){
+    public Bullet(double currentBulletX,double currentBulletY,int currentSpeedY,int currentSpeedX,long currentTime, boolean useAngle){
 
             bulletX = currentBulletX;
             bulletY = currentBulletY;
@@ -47,12 +47,12 @@ public class Bullet {
             time = currentTime;
 
     }
-    public Bullet(double angle,double speed, double currentBulletY,double currentBulletX,long currentTime){
+    public Bullet(double angle,double speed, double currentBulletX, double currentBulletY, long currentTime){
 
         speedY =  -1 * (speed * (Math.sin(Math.toRadians(angle))));
         bulletX = currentBulletX;
         bulletY = currentBulletY;
-        speedX = (int) (   (speed * (Math.cos(Math.toRadians(angle)))));
+        speedX =    (speed * (Math.cos(Math.toRadians(angle))));
         time = currentTime;
 
     }

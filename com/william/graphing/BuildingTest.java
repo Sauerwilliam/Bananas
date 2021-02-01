@@ -6,6 +6,8 @@ import org.mockito.Mock;
 import java.awt.*;
 import java.io.IOException;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -36,4 +38,4 @@ class BuildingTest {
         assertTrue(test.buildingHit(513,460));
     }
 }
- */
+*/

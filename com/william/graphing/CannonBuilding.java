@@ -2,11 +2,11 @@ package com.william.graphing;
 
 import java.io.File;
 
-public class CanonBuilding extends ImageBuilding {
+public class CannonBuilding extends ImageBuilding {
 
     public Building wrapped;
 
-    public CanonBuilding(Building b) {
+    public CannonBuilding(Building b) {
         super(b);
         wrapped = b;
     }

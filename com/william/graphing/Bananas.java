@@ -14,8 +14,8 @@ import java.util.List;
 
 public class Bananas extends Canvas implements ActionListener {
     private final List<Building> buildings;
-    private final List<Bullet> bullets = new ArrayList<>();
-    private static CityScape cityScapes;
+    private static final List<Bullet> bullets = new ArrayList<>();
+    private static CityScape cityScape;
 
     public Bullet test;
     public int angle = 690;//Integer.parseInt(reader.readLine());
@@ -31,29 +31,39 @@ public class Bananas extends Canvas implements ActionListener {
     public Building hitBuilding;
     public int calculatedY;
     public Building buildingHit;
-    public Building cannonBuilding;
     public static boolean destroyBullet;
+    public Building cannonBuilding;
 
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
         JFrame frame = new JFrame("My Drawing");
+
         Bananas canvas = new Bananas();
+        JTextField testText = new JTextField("Hello ag ahsfjdhaglkdjghalskdjghalsdkg ");
+        testText.setSize(WIDTH, 50);
+        testText.addActionListener(canvas);
+        frame.getContentPane().setLayout(new FlowLayout());
         canvas.setSize(WIDTH, HEIGHT);
+        frame.add(testText);
         frame.add(canvas);
         frame.pack();
+        frame.setSize(frame.getWidth()-30, frame.getHeight());
+
+        //frame.setSize(frame.getWidth(), frame.getHeight() + 100);
         frame.setVisible(true);
 
-        while(true) {
-            if(destroyBullet) {
-                Thread.sleep(1000l);
-            } else {
-                canvas.angle = 690; //Integer.parseInt(reader.readLine());
-                canvas.time = System.currentTimeMillis();
-                destroyBullet = false;
 
+
+        for (Building b : canvas.buildings){
+            if (b instanceof CannonBuilding){
+                canvas.cannonBuilding = b;
             }
+
+        }
+        if(canvas.cannonBuilding == null) {
+            throw new RuntimeException("Huh");
         }
 
     }
@@ -64,6 +74,7 @@ public class Bananas extends Canvas implements ActionListener {
         CityScape cityScape = new CityScape(new NumberOfColorsRandomGenerator());
         //bullets.add(new Bullet(250,250,-25,25,System.currentTimeMillis()));
         //bullets.add(new Bullet(250,250,-45,15,System.currentTimeMillis()));
+
         buildings = cityScape.buildBuildings();
         time = System.currentTimeMillis();
         velocity = 50d / 1000d;
@@ -89,47 +100,40 @@ public class Bananas extends Canvas implements ActionListener {
         }
 
 
-        if (destroyBullet){
+        if (destroyBullet) {
             return;
         }
         double timeDelta = System.currentTimeMillis() - time;
 
 
         for (Building b : buildings) {
+/*
+            if (b instanceof CannonBuilding) {
+                cannonBuilding = b;
 
-            if (buildings instanceof CanonBuilding){
-                cannonBuilding = buildings.get(buildings.size());
-                try {
-                    bullets.add(new Bullet(Integer.parseInt(reader.readLine()),cannonBuilding.getXCoordinate(),cannonBuilding.getYCoordinate(),250.2,System.currentTimeMillis()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 System.out.println(cannonBuilding.getXCoordinate());
             }
+*/
 
-
-            for (Bullet B: bullets) {
-                hitBuilding = isAnyBuildingHit((int) B.getBulletX(), (int) B.getBulletY());
-                System.out.print(B.getBulletX() + "  " + B.getBulletY());
+            for (Bullet bullet : bullets) {
+                hitBuilding = isAnyBuildingHit((int) bullet.getBulletX(), (int) bullet.getBulletY());
+                System.out.println(bullet.getBulletX() + "  " + bullet.getBulletY());
                 //bullets.remove(0);
 
 
+                bullet.draw(g);
 
-                B.draw(g);
-
-                if(hitBuilding != null) {
-                    if(hitBuilding instanceof AlleyBuilding){
-                        buildings.set(buildings.indexOf(buildingHit), new AlleyBuilding(new RubbleBuilding(buildingHit),((AlleyBuilding) hitBuilding).getAlleyWidth()));
-                        destroyBullet = true;
-                        bullets.remove(B);
-                        System.out.println("The thing is YAH: " + bullets.contains(B));
+                if (hitBuilding != null) {
+                    if (hitBuilding instanceof AlleyBuilding) {
+                        buildings.set(buildings.indexOf(buildingHit), new AlleyBuilding(new RubbleBuilding(buildingHit), ((AlleyBuilding) hitBuilding).getAlleyWidth()));
+                        bullets.remove(bullet);
+                        System.out.println("The thing is YAH: " + bullets.contains(bullet));
+                    } else {
+                        //System.out.println("Building hit " + hitBuilding.getXCoordinate() + "," + hitBuilding.getYCoordinate());
+                        buildings.set(buildings.indexOf(buildingHit), new RubbleBuilding(buildingHit));
+                        bullets.remove(bullet);
+                        System.out.println("The thing is YAH: " + bullets.contains(bullet));
                     }
-                    //System.out.println("Buildinghit");
-                    //System.out.println("Building hit " + hitBuilding.getXCoordinate() + "," + hitBuilding.getYCoordinate());
-                    buildings.set(buildings.indexOf(buildingHit), new RubbleBuilding(buildingHit));
-                    destroyBullet = true;
-                    bullets.remove(B);
-                    System.out.println("The thing is YAH: " + bullets.contains(B));
                 }
 
             }
@@ -189,6 +193,12 @@ public class Bananas extends Canvas implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        String actionCommand = e.getActionCommand();
+        //now take input in a while
+        if(actionCommand != null) {
+            bullets.add(new Bullet((double)Integer.parseInt(actionCommand), 15, this.cannonBuilding.getXCoordinate(), cannonBuilding.getYCoordinate()-250, System.currentTimeMillis()));
+        }
         repaint();
     }
 }

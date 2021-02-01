@@ -92,11 +92,11 @@ public class CityScape
         rand2 = getRandomNumber(0,buildings.size());
         if(rand1 > rand2){
 
-            buildings.set(rand1,new CanonBuilding(buildings.get(rand1)));
+            buildings.set(rand1,new CannonBuilding(buildings.get(rand1)));
             buildings.set(rand2,new GorillaBuilding(buildings.get(rand2)));
         }
         if (rand1 < rand2){
-            buildings.set(rand2,new CanonBuilding(buildings.get(rand2)));
+            buildings.set(rand2,new CannonBuilding(buildings.get(rand2)));
             buildings.set(rand1,new GorillaBuilding(buildings.get(rand1)));
         }
 
