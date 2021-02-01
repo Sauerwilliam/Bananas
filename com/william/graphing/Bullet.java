@@ -49,10 +49,10 @@ public class Bullet {
     }
     public Bullet(double angle,double speed, double currentBulletX, double currentBulletY, long currentTime){
 
-        speedY =  -1 * (speed * (Math.sin(Math.toRadians(angle))));
+        speed = (speed * (Math.sin(Math.toRadians(angle))));
         bulletX = currentBulletX;
         bulletY = currentBulletY;
-        speedX =    (speed * (Math.cos(Math.toRadians(angle))));
+        speedX = -1 * (speed * (Math.cos(Math.toRadians(angle))));
         time = currentTime;
 
     }

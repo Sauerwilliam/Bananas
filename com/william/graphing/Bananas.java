@@ -41,7 +41,7 @@ public class Bananas extends Canvas implements ActionListener {
         JFrame frame = new JFrame("My Drawing");
 
         Bananas canvas = new Bananas();
-        JTextField testText = new JTextField("Hello ag ahsfjdhaglkdjghalskdjghalsdkg ");
+        JTextField testText = new JTextField("");
         testText.setSize(WIDTH, 50);
         testText.addActionListener(canvas);
         frame.getContentPane().setLayout(new FlowLayout());
@@ -197,7 +197,7 @@ public class Bananas extends Canvas implements ActionListener {
         String actionCommand = e.getActionCommand();
         //now take input in a while
         if(actionCommand != null) {
-            bullets.add(new Bullet((double)Integer.parseInt(actionCommand), 15, this.cannonBuilding.getXCoordinate(), cannonBuilding.getYCoordinate()-250, System.currentTimeMillis()));
+            bullets.add(new Bullet((double)Integer.parseInt(actionCommand), 15, this.cannonBuilding.getXCoordinate() + 100, cannonBuilding.getYCoordinate()-190, System.currentTimeMillis()));
         }
         repaint();
     }
