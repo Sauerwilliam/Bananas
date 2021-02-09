@@ -3,16 +3,22 @@ package com.william.graphing;
 import java.awt.*;
 
 public class Bullet {
+
     public double bulletX;
     public double bulletY;
     public double speedX;
     public double speedY;
     public long time;
-    public static double GRAVITY = 1; //1px /s /s
+    public static double GRAVITY = 10; //1px /s /s
+    public static double WIND = getRandomNumber(-20,20);
     public double timeDelta;
 
     public double calculatedY;
 
+
+    public static int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
 
     public void draw(Graphics g){
         //first move the bullet from where it was to where it should be
@@ -29,10 +35,14 @@ public class Bullet {
         //System.out.println(speedY);
         double oldSpeedY = speedY;
         double newSpeedY = speedY + GRAVITY * timeDelta;
+        double oldSpeedX = speedX;
+        double newSpeedX = speedX + WIND * timeDelta;
+
         speedY = (oldSpeedY + newSpeedY)/2;
         bulletY =  (timeDelta * speedY) + bulletY;
         bulletX = (timeDelta * speedX) + bulletX;
-        speedY = newSpeedY;
+        speedX = (oldSpeedX + newSpeedX) /2;
+
 
         //System.out.println("X is now " + bulletX + " bulletY is" + (bulletY) + " timeDelta was" + timeDelta + "\n");
 
@@ -62,5 +72,6 @@ public class Bullet {
     public double getBulletY(){
         return bulletY;
     }
+
 
 }
