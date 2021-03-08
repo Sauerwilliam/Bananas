@@ -45,6 +45,7 @@ public class CityScape
                 break;
             case 3 :
                 returnValue = new RoundTopBuilding(width,height,color);
+
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + rand);
@@ -72,6 +73,7 @@ public class CityScape
                 int remainingWidth = Bananas.WIDTH - x; //todo
                 buildings.add(buildBuilding(remainingWidth, rectHeight, colorGenerator.getRandomColor()));
                 x = Bananas.WIDTH;
+
 
 
 

@@ -6,8 +6,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 import java.io.BufferedReader;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Bananas extends Canvas implements ActionListener {
+public class Bananas extends Canvas implements ActionListener  {
     private final List<Building> buildings;
     private static final List<Bullet> bullets = new ArrayList<>();
     private static CityScape cityScape;
@@ -43,30 +42,60 @@ public class Bananas extends Canvas implements ActionListener {
     public JTextField textField;
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-
     public static void main(String[] args) throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
         JFrame f = new JFrame("panel");
         f.setTitle("Game");
         // create a label to display text
         JLabel l = new JLabel("panel label");
-        JTextField testText1 = new JTextField("hello");
+        JTextField testText1 = new JTextField("");
         Bananas canvas = new Bananas();
+        f.addWindowListener( new WindowAdapter() {
+            public void windowOpened( WindowEvent e ){
+                    f.requestFocus();
+                    testText1.setText("Input angle");
 
-        // create a panel to add buttons
+            }
+                //testText1.setFocusable(true);
+        });
+        testText1.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                    testText1.setText("");
+                }
+            @Override
+            public void focusLost(FocusEvent e) {
+                testText1.setText("Input angle");
+            }
+        });
         JPanel p = new JPanel();
-        p.setLayout(new OverlayLayout(p));
+        p.setLayout(new BorderLayout());
         // add buttons and textfield to panel
-
+        JButton testButton =new JButton("Fire!");
+        testButton.setBounds(525,0,75,25);
+        testButton.addActionListener(canvas);
+        canvas.textField = testText1;
+        //testButton.setBounds();
+        testText1.setToolTipText("Please enter some text here");
         //p.add(l);
-        testText1.setBounds(50, 50, 280, 50);
-        f.add(testText1);
+        p.add(testButton);
+        testText1.setBounds(450, 0, 75, 25);
+        p.add(testText1);
 
         // add panel to frame
         f.add(p);
-        f.add(canvas);
+        p.add(canvas);
         // set the size of frame
         f.setSize(1050,525);
         f.show();
+        for (Building b : canvas.buildings){
+            if (b instanceof CannonBuilding){
+                canvas.cannonBuilding = b;
+            }
+
+        }
+        if(canvas.cannonBuilding == null) {
+            throw new RuntimeException("Huh");
+        }
         /*
         JPanel frame = new JPanel();
 
@@ -79,7 +108,6 @@ public class Bananas extends Canvas implements ActionListener {
         JButton testButton =new JButton("Click Here");
         JButton startButton =new JButton("Click Here");
 
-        testButton.addActionListener(canvas);
         canvas.setSize(WIDTH, HEIGHT);
         frame.add(testText);
         canvas.textField = testText;
@@ -127,9 +155,7 @@ public class Bananas extends Canvas implements ActionListener {
     public static int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }
-    public void drawStartMenu(Graphics g){
 
-    }
     public void drawGame(Graphics g){
         int x = 0;
 
@@ -160,12 +186,13 @@ public class Bananas extends Canvas implements ActionListener {
 */
 
             for (Bullet bullet : bullets) {
-                hitBuilding = isAnyBuildingHit((int) bullet.getBulletX(), (int) bullet.getBulletY());
                 System.out.println(bullet.getBulletX() + "  " + bullet.getBulletY());
                 //bullets.remove(0);
 
 
                 bullet.draw(g);
+                hitBuilding = isAnyBuildingHit(bullet.getBulletX(),bullet.getBulletY());
+
                 if (hitBuilding instanceof GorillaBuilding) {
                     try {
                         image = ImageIO.read(new File("/home/william/Downloads/YouWin.png"));
@@ -256,7 +283,7 @@ public class Bananas extends Canvas implements ActionListener {
 
 
 
-    public Building isAnyBuildingHit(int startX, int startY) {
+    public Building isAnyBuildingHit(double startX, double startY) {
         for (Building b : buildings) {
             if (b.buildingHit(startX, startY)) {
                 return b;
@@ -266,18 +293,17 @@ public class Bananas extends Canvas implements ActionListener {
     }
 
 
-    private Color getRandomColor() {
-        return new Color(getRandomNumber(0, 225), getRandomNumber(0, 225), getRandomNumber(0, 0));
-    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
+
         String actionCommand = e.getActionCommand();
         //now take input in a while
-        System.out.println(e);
+        //System.out.println(e);
         if(actionCommand != null) {
-            bullets.add(new Bullet(Integer.parseInt(textField.getText()), 225, this.cannonBuilding.getXCoordinate() + 100, cannonBuilding.getYCoordinate()-190, System.currentTimeMillis()));
+            bullets.add(new Bullet(Integer.parseInt(textField.getText()), 75, this.cannonBuilding.getXCoordinate() + 100, cannonBuilding.getYCoordinate()-190, System.currentTimeMillis()));
             File audioFile = new File("/home/william/Downloads/Explosion+1.wav");
             AudioInputStream audioStream = null;
             try {
@@ -300,7 +326,7 @@ public class Bananas extends Canvas implements ActionListener {
             }
             audioClip.start();
         }
-        if (keepRepainting == true) {
+        if (keepRepainting) {
             repaint();
         }
     }

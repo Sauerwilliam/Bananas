@@ -27,7 +27,7 @@ public class RubbleBuilding extends ImageBuilding{
     }
 
     @Override
-    public boolean buildingHit(int bananaX, int bananaY) {
+    public boolean buildingHit(double bananaX, double bananaY) {
         return false;
     }
 

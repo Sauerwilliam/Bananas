@@ -9,7 +9,7 @@ public class Bullet {
     public double speedX;
     public double speedY;
     public long time;
-    public static double GRAVITY = 10; //1px /s /s
+    public static double GRAVITY = 25; //1px /s /s
     public static double WIND = getRandomNumber(-20,20);
     public double timeDelta;
 
@@ -59,7 +59,7 @@ public class Bullet {
     }
     public Bullet(double angle,double speed, double currentBulletX, double currentBulletY, long currentTime){
 
-        speed = (speed * (Math.sin(Math.toRadians(angle))));
+        speedY =-1 * (speed * (Math.sin(Math.toRadians(angle))));
         bulletX = currentBulletX;
         bulletY = currentBulletY;
         speedX = -1 * (speed * (Math.cos(Math.toRadians(angle))));

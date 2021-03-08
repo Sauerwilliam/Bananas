@@ -59,7 +59,8 @@ public class Building {
         return width;
     }
 
-    public boolean buildingHit(int bananaX, int bananaY) {
+    public boolean buildingHit(double bananaX, double bananaY) {
+
         return bananaX >= getXCoordinate() && bananaX <= getXCoordinate() + getWidth() && bananaY > 500 - getHeight();
     }
     
