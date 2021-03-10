@@ -41,52 +41,69 @@ public class Bananas extends Canvas implements ActionListener  {
     public VolatileImage vImg;
     public JTextField textField;
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public boolean isGameDisplayed = false;
+
+    private JPanel game = new JPanel();
+    private JButton fireButton = new JButton();
+    private JFrame f = new JFrame();
+    private JTextField windBox = new JTextField();
+    private JButton windButton = new JButton();
+    private JTextField testText1 = new JTextField();
+    private JLabel l = new JLabel();
+    private JPanel menu = new JPanel();
 
     public static void main(String[] args) throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
-        JFrame f = new JFrame("panel");
-        f.setTitle("Game");
-        // create a label to display text
-        JLabel l = new JLabel("panel label");
-        JTextField testText1 = new JTextField("");
         Bananas canvas = new Bananas();
-        f.addWindowListener( new WindowAdapter() {
+
+        canvas.f.setTitle("Game");
+        // create a label to display text
+        /*canvas.f.addWindowListener(new WindowAdapter() {
             public void windowOpened( WindowEvent e ){
-                    f.requestFocus();
-                    testText1.setText("Input angle");
+                    canvas.f.requestFocus();
+                    canvas.testText1.setText("Input");
 
             }
                 //testText1.setFocusable(true);
         });
-        testText1.addFocusListener(new FocusListener() {
+        canvas.testText1.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                    testText1.setText("");
+                    canvas.testText1.setText("");
                 }
             @Override
             public void focusLost(FocusEvent e) {
-                testText1.setText("Input angle");
+                canvas.testText1.setText("Input");
             }
         });
-        JPanel p = new JPanel();
-        p.setLayout(new BorderLayout());
+
+         */
+        canvas.game.setLayout(new BorderLayout());
         // add buttons and textfield to panel
-        JButton testButton =new JButton("Fire!");
-        testButton.setBounds(525,0,75,25);
-        testButton.addActionListener(canvas);
-        canvas.textField = testText1;
+        canvas.windButton.addActionListener(canvas);
+        canvas.windBox.addActionListener(canvas);
+        canvas.fireButton.setBounds(525,0,75,25);
+        canvas.fireButton.addActionListener(canvas);
+        canvas.textField = canvas.testText1;
         //testButton.setBounds();
-        testText1.setToolTipText("Please enter some text here");
+        canvas.testText1.setToolTipText("Please enter some text here");
         //p.add(l);
-        p.add(testButton);
-        testText1.setBounds(450, 0, 75, 25);
-        p.add(testText1);
+        canvas.game.add(canvas.fireButton);
+        canvas.testText1.setBounds(450, 0, 75, 25);
+        canvas.game.add(canvas.testText1);
+        canvas.windBox.setBounds(450,0,75,25);
+        canvas.windButton.setBounds(525,0,75,25);
+
+        canvas.menu.add(canvas.windBox);
+        canvas.menu.add(canvas.windButton);
 
         // add panel to frame
-        f.add(p);
-        p.add(canvas);
+        canvas.f.add(canvas.menu);
+
+        //f.remove(game);
+        canvas.game.add(canvas);
         // set the size of frame
-        f.setSize(1050,525);
-        f.show();
+        canvas.f.setSize(1050,525);
+        canvas.f.show();
         for (Building b : canvas.buildings){
             if (b instanceof CannonBuilding){
                 canvas.cannonBuilding = b;
@@ -132,13 +149,15 @@ public class Bananas extends Canvas implements ActionListener  {
             throw new RuntimeException("Huh");
         }
         */
+
+
     }
 
 
     public Bananas() throws IOException, UnsupportedAudioFileException {
 
 
-
+        isGameDisplayed = false;
         //CityScape cityScape = new CityScape(new FullSpectrumRandomColorGenerator());
         CityScape cityScape = new CityScape(new NumberOfColorsRandomGenerator());
         //bullets.add(new Bullet(250,250,-25,25,System.currentTimeMillis()));
@@ -150,6 +169,14 @@ public class Bananas extends Canvas implements ActionListener  {
         velocity = 50d / 1000d;
 
         new Timer(125, this).start();
+        game = new JPanel();
+        fireButton = new JButton("Fire!");
+        f = new JFrame("panel");
+        windBox = new JTextField("1");
+        windButton = new JButton("Set wind");
+        testText1 = new JTextField("");
+        l = new JLabel("panel label");
+        menu = new JPanel();
     }
 
     public static int getRandomNumber(int min, int max) {
@@ -302,9 +329,23 @@ public class Bananas extends Canvas implements ActionListener  {
         String actionCommand = e.getActionCommand();
         //now take input in a while
         //System.out.println(e);
-        if(actionCommand != null) {
+        //actionCommand = "no";
+        if (isGameDisplayed == false && actionCommand != null){
+
+            isGameDisplayed = true;
+            f.add(game);
+            f.remove(menu);
+            System.out.println("it work maybe");
+            //System.out.println(source.toString());
+            Bullet.WIND = Integer.parseInt(windBox.getText());
+            System.out.println("it did it");
+
+        }
+        if(actionCommand != null && isGameDisplayed == true) {
             bullets.add(new Bullet(Integer.parseInt(textField.getText()), 75, this.cannonBuilding.getXCoordinate() + 100, cannonBuilding.getYCoordinate()-190, System.currentTimeMillis()));
+
             File audioFile = new File("/home/william/Downloads/Explosion+1.wav");
+            System.out.print("Got here");
             AudioInputStream audioStream = null;
             try {
                 audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -326,6 +367,7 @@ public class Bananas extends Canvas implements ActionListener  {
             }
             audioClip.start();
         }
+        f.show();
         if (keepRepainting) {
             repaint();
         }

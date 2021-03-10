@@ -66,6 +66,9 @@ public class Bullet {
         time = currentTime;
 
     }
+    public void setWIND(int newWind){
+        WIND = newWind;
+    }
     public double getBulletX(){
         return bulletX;
     }
